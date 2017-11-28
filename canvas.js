@@ -12,7 +12,7 @@ for (var x = 0; x < 160; x++) {
 	finalPattern.push([]);
 	for(var y = 0; y < 160; y++) {
 		pixels[x].push(false);
-		if (x < 90 && x > 70 && y < 90 && y > 70) {
+		if ((x < 50 && x > 30 && y < 60 && y > 40) || (x < 130 && x > 110 && y < 60 && y > 40) || (x > 20 && x < 140 && y > 100 && y < 120)) {
 			finalPattern[x].push(0);
 			patternIndices.push([x, y]);
 		} else {
@@ -49,9 +49,9 @@ canvas.addEventListener('mouseup', function(evt) {
 	paint = false;
 })
 
-canvas.addEventListener('mouseleave', function(evt) {
+/*canvas.addEventListener('mouseleave', function(evt) {
 	paint = false;
-})
+})*/
 
 function finish() {
 	if (!finished) {
@@ -61,63 +61,61 @@ function finish() {
 }
 
 function step() {
-	var visited = new Array();
-	var queued = new Array();
-	var numVisited = 0;
-	
-	for (var x = 0; x < finalPattern.length; x++) {
-		visited.push([]);
-		for (var y = 0; y < finalPattern.length; y++) {
-			visited.push(0);
-			if (finalPattern[x][y] != 2) {
-				queued.push([x, y]);
+	var sorted = [];
+	for (var x = 0; x < pixels.length; x++) {
+		for (var y = 0; y < pixels[0].length; y++) {
+			if (pixels[x][y]) {
+				var closest = getClosest(x, y);
+				var dist = distTo(x, y, closest[0], closest[1]);
+				if (sorted.length == 0) {
+					sorted.push([x, y, dist]);
+				} else {
+					var index = Math.floor(sorted.length / 2);
+					var leap = Math.floor(sorted.length / 4);
+					while(leap > 1) {
+						if (dist < sorted[index][2]) {
+							index -= leap;
+						} else if (dist > sorted[index][2]) {
+							index += leap;
+						} else {
+							break;
+						}
+						leap = Math.floor(leap / 2);
+					}
+					sorted.splice(index, 0, [x, y, dist]);
+				}
 			}
 		}
 	}
 	
-	while (numVisited < 160*160) {
-		var len = queued.length;
-		for (var x = 0; x < len; x++) {
-			var index = queued.splice(0, 1)[0];
-			visited[index[0]][index[1]] = 1;
-			if (index[0] > 0 && visited[index[0] - 1][index[1]] == 0)
-				queued.push([index[0] - 1, index[1]]);
-			if (index[0] < 159 && visited[index[1] + 1][index[1]] == 0)
-				queued.push([index[0] + 1, index[1]]);
-			if (index[1] > 0 && visited[index[0]][index[1] - 1] == 0)
-				queued.push([index[0], index[1] - 1]);
-			if (index[1] < 159 && visited[index[0]][index[1] + 1] == 0)
-				queued.push([index[0], index[1] + 1]);
-			deal(index[0], index[1]);
-		}
+	for (var x = 0; x < sorted.length; x++) {
+		deal(sorted[x][0], sorted[x][1])
 	}
 }
 
 function deal(x, y) {
-	if (pixels[x][y]) {
-		var closestPixel = getClosest(x, y);
-		var x_Inc = (x < closestPixel[0]) ? 1 : ((x > closestPixel[0]) ? -1 : 0);
-		var y_Inc = (y < closestPixel[1]) ? 1 : ((y > closestPixel[1]) ? -1 : 0);
-		pixels[x][y] = false;
-		if (finalPattern[x + x_Inc][y + y_Inc] != 1) {
-			context.fillStyle="#FFFFFF";
-			context.fillRect(x * 5, y * 5, 5, 5)
-		}
-		pixels[x + x_Inc][y + y_Inc] = true;
-		context.fillStyle="#000000";
-		context.fillRect((x + x_Inc) * 5, (y + y_Inc) * 5, 5, 5)
-		if (finalPattern[x + x_Inc][y + y_Inc] == 0) {
-			finalPattern[x + x_Inc][y + y_Inc] = 1;
-			pixels[x + x_Inc][y + y_Inc] = false;
-			for (var z = 0; z < patternIndices.length; z++) {
-				if (patternIndices[z][0] == x + x_Inc && patternIndices[z][1] == y + y_Inc) {
-					patternIndices.splice(z, 1);
-					if (patternIndices.length == 0) {
-						clearInterval(update);
-						return;
-					}
-					break;
+	var closestPixel = getClosest(x, y);
+	var x_Inc = (x < closestPixel[0]) ? 1 : ((x > closestPixel[0]) ? -1 : 0);
+	var y_Inc = (y < closestPixel[1]) ? 1 : ((y > closestPixel[1]) ? -1 : 0);
+	pixels[x][y] = false;
+	if (finalPattern[x + x_Inc][y + y_Inc] != 1) {
+		context.fillStyle="#FFFFFF";
+		context.fillRect(x * 5, y * 5, 5, 5)
+	}
+	pixels[x + x_Inc][y + y_Inc] = true;
+	context.fillStyle="#000000";
+	context.fillRect((x + x_Inc) * 5, (y + y_Inc) * 5, 5, 5)
+	if (finalPattern[x + x_Inc][y + y_Inc] == 0) {
+		finalPattern[x + x_Inc][y + y_Inc] = 1;
+		pixels[x + x_Inc][y + y_Inc] = false;
+		for (var z = 0; z < patternIndices.length; z++) {
+			if (patternIndices[z][0] == x + x_Inc && patternIndices[z][1] == y + y_Inc) {
+				patternIndices.splice(z, 1);
+				if (patternIndices.length == 0) {
+					clearInterval(update);
+					return;
 				}
+				break;
 			}
 		}
 	}
@@ -127,13 +125,17 @@ function getClosest(x, y) {
 	var distance = 10000;
 	var closest;
 	for (var z = 0; z < patternIndices.length; z++) {
-		var diffX = Math.abs(x - patternIndices[z][0]);
-		var diffY = Math.abs(y - patternIndices[z][1]);
-		var temp = Math.sqrt(diffX*diffX + diffY*diffY);
+		var temp = distTo(x, y, patternIndices[z][0], patternIndices[z][1])
 		if (temp < distance) {
 			distance = temp;
 			closest = patternIndices[z];
 		}
 	}
 	return closest;
+}
+
+function distTo(x, y, a, b) {
+	var diffX = Math.abs(x - a);
+	var diffY = Math.abs(y - b);
+	return Math.sqrt(diffX*diffX + diffY*diffY);
 }
