@@ -1,13 +1,16 @@
+var paint, finished, drawn, pixels, finalPattern, patternIndices, permanentIndices, numPixels, stepInterval;
 var canvas = document.getElementById("d1").childNodes[1];
 var context = canvas.getContext("2d");
-var paint, finished, pixels, finalPattern, patternIndices, permanentIndices, numPixels, stepInterval;
 
 start();
+
+//if adding sound, choose random pixel from sorted each step and play sound according to distTo
 
 function start() {
 	context.fillStyle = "#FFFFFF";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	finished = false;
+	drawn = false;
 	pixels = new Array();
 	finalPattern = new Array();
 	patternIndices = new Array();
@@ -72,6 +75,9 @@ function finish() {
 		}
 		setTimeout(step, stepInterval);
 	}
+	if (drawn) {
+		showPopup();
+	}
 }
 
 function step() {
@@ -106,6 +112,10 @@ function step() {
 	
 	for (var x = 0; x < sorted.length; x++) {
 		deal(sorted[x][0], sorted[x][1])
+	}
+	if (!drawn && patternIndices.length == 0) {
+		drawn = true;
+		showPopup();
 	}
 	if (finished) {
 		setTimeout(step, stepInterval);

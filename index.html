@@ -1,28 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<style>
-			body {
-				background-color: #202020
-			}
-			.button {
-				background-color: #AAAAAA;
-				color: black;
-				padding: 15px 32px;
-				text-align: center;
-				display: inline-block;
-				font-size: 16px;
-				margin: 4px 2px;
-			}
-		</style>
+		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
-		<div id="d1" style="border: 5px solid black; position: absolute; right: 20px; width: 800px; height: 800px;">
-			<canvas id="canvas" width="800" height="800"></canvas>
+		<div id="d1">
+			<canvas style="border:  5px solid black; float: right; margin-top: -140px; margin-right:40px;" id="canvas" width="800" height="800"></canvas>
+			<div id="d2">
+			<p style="font-size: 32px; font-family: Pixel; color: black; text-align: center; margin-top: 200px;">PLEASE DRAW A FACE</p>
+			<button class="button" onclick="finish()" style="margin-top: 100px;">FINISH</button>
+			<button class="button" onclick="start()" style="margin-top: 10px;">RESTART</button>
+			<button class="button" onclick="location.href='gallery.html'" style="margin-top: 10px;">VIEW GALLERY</button>
+			</div>
 		</div>
+		
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <span class="close" onclick="closeModal()">&times;</span>
+			  <h2>WELL DONE.</h2>
+			</div>
+			<div style="text-align: center;" class="modal-body">
+			  <img style="border: 5px solid black;" src="images/finish.png"></img>
+			  <form method="get" action="images/sample.png">
+				<input type="image" class="downloadButton" src="images/downloadButton.png"/>
+			  </form>
+			</div>
+			<div class="modal-footer">
+			  <h3 style="color:white;">PUBLISH TO GALLERY?</h3>
+			  <button class="modalButton" onclick="publish()">YES</button>
+			  <button class="modalButton" onclick="closeModal()">NO</h3>
+			</div>
+		  </div>
+		</div>
+		<script>
+			var modal = document.getElementById('myModal');
+			var span = document.getElementsByClassName("close")[0];
+
+			function showPopup() {
+				modal.style.display = "block";
+			}
+			
+			function closeModal() {
+				modal.style.display = "none";
+			}
+			
+			span.onclick = closeModal;
+			
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		</script>
 		<script src="canvas.js"></script>
-		<button class="button" onclick="finish()">Finish</button>
-		<button class="button" onclick="start()">Restart</button>
-		<button class="button" onclick="publish()">Publish</button>
 	</body>
 </html>
