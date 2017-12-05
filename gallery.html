@@ -1,9 +1,47 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>GALLERY</title>
+		<link rel="icon" href="images/favicon.ico" />
 		<link rel="stylesheet" href="styles.css">
+		<style>body { background-color: #C9C9C9; } </style>
 	</head>
 	<body>
-		<p>you made it to the gallery</p>
+		<h1 style="font-size: 32px; font-family: Pixel; color: black; text-align: center;">GALLERY<h1>
+		<button class="galleryButtons" onclick="toppity()" style="bottom: 20px;">RETURN TO TOP</button>
+		<button class="galleryButtons" onclick="location.href='index.html'" style="bottom: 80px;">CREATE A FACE</button>
+		<div id="d1" style="text-align: center; width: 60%; margin: auto"></div>
+		<script src="imageGen.js"></script>
+		
+		<div id="myModal" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<div style="text-align: center; background-color: black;" class="modal-body">
+			  <img style="border: 5px solid black; max-width:100%; max-height:100%;" src="images/preview.png"></img>
+			</div>
+			<div class="modal-footer">
+			  <a href="images/sample.png" download="face.png">
+				<button class="galleryModalButton" style="max-width:100%; max-height:100%">DOWNLOAD.</button>
+				</a>
+			</div>
+		  </div>
+		</div>
+		<script>
+			var modal = document.getElementById('myModal');
+
+			function showPopup() {
+				modal.style.display = "block";
+			}
+			
+			function closeModal() {
+				modal.style.display = "none";
+			}
+				
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		</script>
 	</body>
 </html>

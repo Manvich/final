@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="styles.css">
+		<title>SYNTHESIS</title>
+		<link rel="icon" href="images/favicon.ico" />
+		<link rel="stylesheet" href="styles.css" />
+		<style>body { background-color: #C9C9C9; } </style>
 	</head>
 	<body>
 		<div id="d1">
 			<canvas style="border:  5px solid black; float: right; margin-top: -140px; margin-right:40px;" id="canvas" width="800" height="800"></canvas>
 			<div id="d2">
-			<p style="font-size: 32px; font-family: Pixel; color: black; text-align: center; margin-top: 200px;">PLEASE DRAW A FACE</p>
+			<p style="font-size: 32px; font-family: Pixel; color: black; text-align: center; margin-top: 200px;">PLEASE PROVIDE A FACE</p>
 			<button class="button" onclick="finish()" style="margin-top: 100px;">FINISH</button>
 			<button class="button" onclick="start()" style="margin-top: 10px;">RESTART</button>
 			<button class="button" onclick="location.href='gallery.html'" style="margin-top: 10px;">VIEW GALLERY</button>
@@ -25,13 +28,10 @@
 			</div>
 			<div style="text-align: center;" class="modal-body">
 			  <img style="border: 5px solid black;" src="images/finish.png"></img>
-			  <form method="get" action="images/sample.png">
-				<input type="image" class="downloadButton" src="images/downloadButton.png"/>
-			  </form>
 			</div>
 			<div class="modal-footer">
 			  <h3 style="color:white;">PUBLISH TO GALLERY?</h3>
-			  <button class="modalButton" onclick="publish()">YES</button>
+			  <button class="modalButton" onclick="location.href='gallery.html'">YES</button>
 			  <button class="modalButton" onclick="closeModal()">NO</h3>
 			</div>
 		  </div>

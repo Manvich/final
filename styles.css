@@ -1,5 +1,19 @@
 @font-face { font-family: Pixel; src: url('fonts/Pixeled.ttf'); }
-				
+
+			.galleryButtons {
+				background-color: #404040;
+				width: 200px;
+				display:block;
+				border: none;
+				color: white;
+				padding: 10px 10px;
+				text-align: center;
+				font-size: 12px;
+				font-family: Pixel;
+				position: fixed;
+				right: 10px;
+			}
+			
 			.button {
 				background-color: #404040;
 				width: 200px;
@@ -13,13 +27,8 @@
 				margin: auto;
 			}
 			
-			.downloadButton {
-				display: block;
-				float: right;
-				margin-top: -35px;
-			}
-			
-			.button:hover {
+			.button:hover,
+			.galleryButtons:hover {
 				background-color: #202020;
 				cursor: pointer;
 			}
@@ -36,8 +45,20 @@
 				margin: 4px 2px;
 			}
 			
+			.galleryModalButton {
+				display: inline-block;
+				background-color: #000000;
+				border: none;
+				color: white;
+				padding: 5px 5px;
+				text-align: center;
+				font-size: 36px;
+				font-family: Pixel;
+				margin: 4px 2px;
+			}
+			
 			.modalButton:hover,
-			.modalButton:focus {
+			.galleryModalButton:hover {
 				color: #ff0000;
 				text-decoration: none;
 				cursor: pointer;
@@ -66,7 +87,7 @@
 				margin: auto;
 				padding: 0;
 				border: 1px solid #888;
-				width: 40%;
+				width: 35%;
 				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 				-webkit-animation-name: animatetop;
 				-webkit-animation-duration: 0.4s;
@@ -107,10 +128,6 @@
 			}
 
 			.modal-body {padding: 20px 16px;}
-			
-			.modal-body:hover downloadButton {
-				display: block;
-			}
 
 			.modal-footer {
 				padding: 2px 16px;
