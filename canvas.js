@@ -1,11 +1,12 @@
-var canvas = document.getElementById('canvas');
+var canvas = document.getElementById("d1").childNodes[1];
 var context = canvas.getContext("2d");
 var paint, finished, pixels, finalPattern, patternIndices, permanentIndices, numPixels, stepInterval;
 
 start();
 
 function start() {
-	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.fillStyle = "#FFFFFF";
+	context.fillRect(0, 0, canvas.width, canvas.height);
 	finished = false;
 	pixels = new Array();
 	finalPattern = new Array();
@@ -38,6 +39,7 @@ function getMousePos(canvas, evt) {
 }
 
 function drawRect(pos) {
+	context.fillStyle = "#000000";
 	context.fillRect(pos.x - pos.x%5, pos.y - pos.y%5, 5, 5);
 	pixels[pos.x/5>>0][pos.y/5>>0] = pixels[pos.x/5>>0][pos.y/5>>0] + 1;
 }

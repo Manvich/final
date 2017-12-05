@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<style>
+			body {
+				background-color: #202020
+			}
+			.button {
+				background-color: #AAAAAA;
+				color: black;
+				padding: 15px 32px;
+				text-align: center;
+				display: inline-block;
+				font-size: 16px;
+				margin: 4px 2px;
+			}
+		</style>
+	</head>
 	<body>
-		<canvas id="canvas" width="800" height="800" style="border: 5px solid black;"></canvas>
+		<div id="d1" style="border: 5px solid black; position: absolute; right: 20px; width: 800px; height: 800px;">
+			<canvas id="canvas" width="800" height="800"></canvas>
+		</div>
 		<script src="canvas.js"></script>
-		<p></p>
-		<button type="button" onclick="finish()">Finish</button>
-		<button type="button" onclick="start()">Restart</button>
-		<button type="button" onclick="publish()">Publish</button>
+		<button class="button" onclick="finish()">Finish</button>
+		<button class="button" onclick="start()">Restart</button>
+		<button class="button" onclick="publish()">Publish</button>
 	</body>
 </html>
